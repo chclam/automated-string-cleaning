@@ -21,7 +21,7 @@ jobs:
     # Step 2: run this sync action - specify the upstream repo, upstream branch to sync with, and target sync branch
     - name: Pull upstream changes
       id: sync
-      uses: ml-thesis/automated-string-cleaning@fork
+      uses: ml-thesis/automated-string-cleaning@v1
       with:
         upstream_repository: Johnnynater/thesis
         upstream_branch: main
