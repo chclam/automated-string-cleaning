@@ -25,4 +25,5 @@ jobs:
       with:
         upstream_repository: Johnnynater/thesis
         upstream_branch: main
-        target_branch: main   
+        target_branch: main
+        git_pull_args: '--unshallow'
