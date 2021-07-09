@@ -5,7 +5,7 @@ import pandas as pd
 from dirty_cat import SimilarityEncoder, MinHashEncoder, GapEncoder
 from sklearn.preprocessing import OrdinalEncoder
 from nltk.corpus import wordnet as wn
-# from category_encoders import TargetEncoder
+from category_encoders import TargetEncoder
 # from nltk.stem.wordnet import WordNetLemmatizer
 
 
@@ -120,7 +120,7 @@ def determine_order_heur(values):
     return final_order
 
 
-def run(df, y, column, encode_type, dense):
+def run(df, y, column, encode_type, dense, balanced):
     """ Run the heuristics on string encoding.
 
     :param df: a pandas DataFrame consisting of the data.
@@ -128,9 +128,9 @@ def run(df, y, column, encode_type, dense):
     :param column: a pandas DataFrame consisting of the column to be encoded.
     :param encode_type: an Integer indicating whether the column needs ordinal or nominal encoding.
     :param dense: a Boolean indicating whether the encoded values are fitted in one column or in multiple.
+    :param balanced: a Boolean indicating whether the target classes are balanced.
     :return: a Dictionary consisting of the mappings String -> Float/List.
     """
-    # TODO: TargetEncoder for non-similar strings.
     if encode_type == 0:
         # Ordinal encoding required. Determine the order and encode accordingly
         unique_entries = [item for item, _ in column.value_counts().iteritems()]
@@ -138,19 +138,23 @@ def run(df, y, column, encode_type, dense):
         enc = OrdinalEncoder(categories=[order])
     else:
         if column.value_counts().count() < 30:
-            # Data has low cardinality. Encode using SimilarityEncoder
-            enc = SimilarityEncoder()
+            # Data has low cardinality. Check the class balance
+            if balanced:
+                # Encode using TargetEncoder
+                enc = TargetEncoder()
+            else:
+                # Encode using SimilarityEncoder
+                enc = SimilarityEncoder()
         elif column.value_counts().count() < 100:
-            enc = MinHashEncoder()
-        else:
-            # Data has high cardinality. Encode using GapEncoder
+            # Data has medium to high cardinality. Encode using GapEncoder
             enc = GapEncoder()
+        else:
+            # Data has high cardinality. Encode using MinHashEncoder
+            enc = MinHashEncoder()
 
-    if dense or encode_type == 0:
-        return dict({
-            x: (y[0] if encode_type == 0 else y) for x, y in zip(column, enc.fit_transform(column.to_frame()))
-        })
-    else:
+    if encode_type == 1 and column.value_counts().count() < 30 and balanced:
+        return enc.fit_transform(column, y)
+    elif encode_type == 1 and not dense:
         # Create a column for each dimension and return the resulting DataFrame
         encoding = enc.fit_transform(np.array(column).reshape((-1, 1)))
         df = df.drop(columns=column.name)
@@ -158,6 +162,25 @@ def run(df, y, column, encode_type, dense):
         encoding = pd.DataFrame([encoding[i] for i in range(len(encoding))])
         encoding = encoding.rename(columns={i: column.name + str(i) for i in range(dim_len)})
         return pd.concat([df, encoding], axis=1)
+    else:
+        return dict({
+            x: (val[0] if encode_type == 0 else val) for x, val in zip(column, enc.fit_transform(column.to_frame()))
+        })
+
+    # if (dense or encode_type == 0) and not balanced:
+    #     return dict({
+    #         x: (val[0] if encode_type == 0 else val) for x, val in zip(column, enc.fit_transform(column.to_frame()))
+    #     })
+    # elif column.value_counts().count() < 30 and balanced:
+    #     return enc.fit_transform(column, y)
+    # else:
+    #     # Create a column for each dimension and return the resulting DataFrame
+    #     encoding = enc.fit_transform(np.array(column).reshape((-1, 1)))
+    #     df = df.drop(columns=column.name)
+    #     dim_len = len(encoding[0])
+    #     encoding = pd.DataFrame([encoding[i] for i in range(len(encoding))])
+    #     encoding = encoding.rename(columns={i: column.name + str(i) for i in range(dim_len)})
+    #     return pd.concat([df, encoding], axis=1)
 
 
 # List of all types of quantifiers (split between little and large), taken from
