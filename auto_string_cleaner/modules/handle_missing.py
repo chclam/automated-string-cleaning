@@ -111,8 +111,8 @@ def encode_strings(df, datatypes, names):
     """
     encoded_vals = {}
     for col, val in zip(df, datatypes):
-        if val in names or df[col].dtype not in ['int64', 'float64']:
-            replacement = df[col].dropna().map(lambda x: str(x) if type(x) != str else x).unique().reshape(-1, 1)
+        if val in names or not ('int' in str(df[col].dtype) or 'float' in str(df[col].dtype)):
+            replacement = np.array(df[col].dropna().map(lambda x: str(x) if type(x) != str else x).unique()).reshape(-1, 1)
             enc = OrdinalEncoder()
             enc.fit(replacement)
             encoding = enc.categories_
