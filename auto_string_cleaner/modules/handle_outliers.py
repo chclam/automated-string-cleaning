@@ -133,13 +133,17 @@ def run(df, datatypes, outliers, names):
                     if out in df[col].values and dt not in names and dt != 'string':
                         # If the data type outlier is still there, replace it with a random non-outlier value.
                         replaced = False
-                        while not replaced:
-                            replacement = df[col].sample(1).iloc[0]
-                            if replacement not in outlier:
-                                print('>> Outlier found in column "{}". Outlier "{}" replaced by "{}".'
-                                      .format(col, out, replacement))
-                                df[col] = df[col].replace(out, replacement)
-                                replaced = True
+                        # Stop the replacement process if there is no replacement to choose from
+                        if len(set(df[col].unique()).difference(set(outlier))) == 0:
+                            continue
+                        else:
+                            while not replaced:
+                                replacement = df[col].sample(1).iloc[0]
+                                if replacement not in outlier:
+                                    print('>> Outlier found in column "{}". Outlier "{}" replaced by "{}".'
+                                          .format(col, out, replacement))
+                                    df[col] = df[col].replace(out, replacement)
+                                    replaced = True
 
         elif not outlier and dt in names and dt != 'sentence':
             # Only consider <2.5% frequency entries as candidates
