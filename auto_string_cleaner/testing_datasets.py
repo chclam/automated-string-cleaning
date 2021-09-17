@@ -64,4 +64,66 @@ import openml as oml
 # usp05_ft = oml.datasets.get_dataset(1057)
 # X, y, _, _ = usp05_ft.get_data(target=usp05_ft.default_target_attribute)
 
-X, y = main.run(data=X, y=y)
+import traceback
+IDS = [
+        490, 1072, 23380, 1024, 1093, 1037, 205, 473, 566, 567, 568, 569, 570, 575, 576, 577, 578, 510, 524, 516, 315,
+        327, 328, 42673, 42878, 42880, 42882, 42883, 42768, 42897, 42898, 42804, 42805, 42986, 42987, 43003, 43004,
+        43005, 43006, 43009, 42960, 42664, 42723, 42730, 42825, 42781, 41705, 42125, 41021, 41002, 41003, 41006, 41981,
+        41980, 41968, 42532, 42460, 42530, 42563, 42637, 42638, 42647, 42652, 42654, 42655, 42621, 42622, 42623,
+        42624, 42625, 42626, 42603, 42604, 42605, 42606, 42607, 42609, 42610, 42611, 42612, 42613, 42614, 42615, 42616,
+        42617, 42618, 42619, 42620, 41091, 42172, 42177, 42133, 42107, 42167, 42169, 42123, 42159, 41430, 42359,
+        41533, 42195, 42196, 42260, 42371, 43025, 43023, 43028, 43029, 456, 471, 491, 532, 539, 506,
+        498, 502, 42918, 43035, 43033, 42931, 42910, 42911, 42912, 42972, 43038, 42969, 42965, 42964, 42967, 42968,
+        42966, 42989, 42970, 42971, 42585, 42165, 40945, 222, 224, 204, 231, 194, 200, 232, 196, 42727, 40966, 6332,
+        23381, 43085, 213, 40536, 41190, 40728, 42907, 2, 5, 7, 9, 4, 13, 15, 24, 34, 188, 27, 186, 185, 29, 49, 42, 38,
+        35, 55, 52, 56, 25, 51, 57, 171, 172, 163, 342, 340, 460, 454, 474, 470, 443, 452, 449, 453, 451, 466, 382, 378,
+        381, 739, 481, 738, 488, 760, 810, 757, 798, 802, 786, 831, 840, 839, 854, 842, 852, 861, 858, 844, 897, 899,
+        898, 930, 940, 944, 939, 960, 966, 961, 957, 967, 968, 963, 982, 986, 972, 984, 989, 1002, 993, 1001, 992, 999,
+        998, 975, 985, 990, 1010, 1000, 1003, 1008, 1018, 1007, 1023, 1017, 1057, 1101, 1102, 1109, 455
+]
+
+for dataset_id in IDS:
+    try:
+        print(f"Starting a new dataset with id {dataset_id}")
+        data = oml.datasets.get_dataset(dataset_id)
+        X, y, _, _ = data.get_data(target=data.default_target_attribute)
+    except Exception:
+        with open(f"errors/before_string_handling/{dataset_id}.txt", "w") as log:
+            traceback.print_exc(file=log)
+            continue
+    try:
+        X, y = main.run(data=X, y=y)
+    except TypeError:
+        with open(f"errors/during_string_handling/TypeError/{dataset_id}.txt", "w") as log:
+            traceback.print_exc(file=log)
+        continue
+    except ValueError:  # ValueError could be due to there not being a target in the dataset
+        try:
+            X = main.run(data=X)
+        except TypeError:
+            with open(f"errors/during_string_handling/TypeError/{dataset_id}.txt", "w") as log:
+                traceback.print_exc(file=log)
+            continue
+        except ValueError:
+            with open(f"errors/during_string_handling/ValueError/{dataset_id}.txt", "w") as log:
+                traceback.print_exc(file=log)
+            continue
+        except KeyError:
+            with open(f"errors/during_string_handling/KeyError/{dataset_id}.txt", "w") as log:
+                traceback.print_exc(file=log)
+            continue
+        except Exception:
+            with open(f"errors/during_string_handling/Other/{dataset_id}.txt", "w") as log:
+                traceback.print_exc(file=log)
+            continue
+        with open(f"errors/during_string_handling/ValueError/{dataset_id}.txt", "w") as log:
+            traceback.print_exc(file=log)
+        continue
+    except KeyError:
+        with open(f"errors/during_string_handling/KeyError/{dataset_id}.txt", "w") as log:
+            traceback.print_exc(file=log)
+        continue
+    except Exception:
+        with open(f"errors/during_string_handling/Other/{dataset_id}.txt", "w") as log:
+            traceback.print_exc(file=log)
+        continue

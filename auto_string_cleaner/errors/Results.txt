@@ -1,0 +1,7 @@
+4 out of 257 datasets failed before string handling --> OpenML issue
+
+55 out of 257 datasets failed during string handling
+- ValueErrors: Two types of similar errors in handle_missing.py
+- TypeErrors: Two types of errors, one in machines not recognizing data and one in outliers
+- KeyErrors: More type of errors
+- Others: OverFlowError (math range) or LookUpError (NLTK data not found)

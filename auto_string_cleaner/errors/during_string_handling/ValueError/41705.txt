@@ -1,0 +1,83 @@
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 168, in run
+    if mcar_test(df) >= 0.05:
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 46, in mcar_test
+    parta = np.dot(means.T, np.linalg.solve(select_cov, np.identity(select_cov.shape[1])))
+  File "<__array_function__ internals>", line 5, in solve
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\numpy\linalg\linalg.py", line 393, in solve
+    r = gufunc(a, b, signature=signature, extobj=extobj)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\numpy\linalg\linalg.py", line 88, in _raise_linalgerror_singular
+    raise LinAlgError("Singular matrix")
+numpy.linalg.LinAlgError: Singular matrix
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 95, in <module>
+    X, y = main.run(data=X, y=y)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 174, in run
+    data = handle_missing_vals(data, datatypes, missing_vals, names)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 59, in handle_missing_vals
+    df = handle_missing.run(df, datatypes, names)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 179, in run
+    df = impute_mar_mnar(df)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 100, in impute_mar_mnar
+    imputed_df = imp.fit_transform(df)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\impute\_iterative.py", line 657, in fit_transform
+    Xt, estimator = self._impute_one_feature(
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\impute\_iterative.py", line 342, in _impute_one_feature
+    imputed_values = estimator.predict(X_test)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\linear_model\_bayes.py", line 324, in predict
+    y_mean = self._decision_function(X)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\linear_model\_base.py", line 220, in _decision_function
+    X = check_array(X, accept_sparse=['csr', 'csc', 'coo'])
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\utils\validation.py", line 63, in inner_f
+    return f(*args, **kwargs)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\utils\validation.py", line 720, in check_array
+    _assert_all_finite(array,
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\utils\validation.py", line 103, in _assert_all_finite
+    raise ValueError(
+ValueError: Input contains NaN, infinity or a value too large for dtype('float64').
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 168, in run
+    if mcar_test(df) >= 0.05:
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 46, in mcar_test
+    parta = np.dot(means.T, np.linalg.solve(select_cov, np.identity(select_cov.shape[1])))
+  File "<__array_function__ internals>", line 5, in solve
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\numpy\linalg\linalg.py", line 393, in solve
+    r = gufunc(a, b, signature=signature, extobj=extobj)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\numpy\linalg\linalg.py", line 88, in _raise_linalgerror_singular
+    raise LinAlgError("Singular matrix")
+numpy.linalg.LinAlgError: Singular matrix
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 102, in <module>
+    X = main.run(data=X)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 174, in run
+    data = handle_missing_vals(data, datatypes, missing_vals, names)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 59, in handle_missing_vals
+    df = handle_missing.run(df, datatypes, names)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 179, in run
+    df = impute_mar_mnar(df)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 100, in impute_mar_mnar
+    imputed_df = imp.fit_transform(df)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\impute\_iterative.py", line 657, in fit_transform
+    Xt, estimator = self._impute_one_feature(
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\impute\_iterative.py", line 342, in _impute_one_feature
+    imputed_values = estimator.predict(X_test)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\linear_model\_bayes.py", line 324, in predict
+    y_mean = self._decision_function(X)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\linear_model\_base.py", line 220, in _decision_function
+    X = check_array(X, accept_sparse=['csr', 'csc', 'coo'])
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\utils\validation.py", line 63, in inner_f
+    return f(*args, **kwargs)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\utils\validation.py", line 720, in check_array
+    _assert_all_finite(array,
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\utils\validation.py", line 103, in _assert_all_finite
+    raise ValueError(
+ValueError: Input contains NaN, infinity or a value too large for dtype('float64').

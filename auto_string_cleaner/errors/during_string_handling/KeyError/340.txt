@@ -1,0 +1,35 @@
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 96, in <module>
+    X, y = main.run(data=X, y=y)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 219, in run
+    unique_string_cols = apply_encoding(unique_string_cols, y, require_enc_unique, dense_encoding)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 124, in apply_encoding
+    df[col] = encode_data.run(df, y, df[col], val, dense, balanced)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\encode_data.py", line 65, in run
+    return enc.fit_transform(column, y)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\category_encoders\utils.py", line 150, in fit_transform
+    return self.fit(X, y, **fit_params).transform(X, y)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\category_encoders\target_encoder.py", line 120, in fit
+    raise ValueError("The length of X is " + str(X.shape[0]) + " but length of y is " + str(y.shape[0]) + ".")
+ValueError: The length of X is 50 but length of y is 52.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 103, in <module>
+    X = main.run(data=X)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 245, in run
+    enc_used = {x:
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 247, in <dictcomp>
+    else 'SimilarityEncoder' if info.at[x, 'Number of unique values'] < 30 or (
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\pandas\core\indexing.py", line 2275, in __getitem__
+    return super().__getitem__(key)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\pandas\core\indexing.py", line 2222, in __getitem__
+    return self.obj._get_value(*key, takeable=self._takeable)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\pandas\core\frame.py", line 3576, in _get_value
+    loc = engine.get_loc(index)
+  File "pandas\_libs\index.pyx", line 76, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas\_libs\index.pyx", line 108, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas\_libs\hashtable_class_helper.pxi", line 5198, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas\_libs\hashtable_class_helper.pxi", line 5206, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'site_city'

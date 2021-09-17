@@ -1,0 +1,40 @@
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 95, in <module>
+    X, y = main.run(data=X, y=y)
+ValueError: too many values to unpack (expected 2)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 175, in run
+    df = impute_mar_mnar(df)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 101, in impute_mar_mnar
+    return pd.DataFrame(np.round(imputed_df), columns=df.columns)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\pandas\core\frame.py", line 672, in __init__
+    mgr = ndarray_to_mgr(
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\pandas\core\internals\construction.py", line 324, in ndarray_to_mgr
+    _check_values_indices_shape_match(values, index, columns)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\pandas\core\internals\construction.py", line 393, in _check_values_indices_shape_match
+    raise ValueError(f"Shape of passed values is {passed}, indices imply {implied}")
+ValueError: Shape of passed values is (8378, 59), indices imply (8378, 123)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 102, in <module>
+    X = main.run(data=X)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 174, in run
+    data = handle_missing_vals(data, datatypes, missing_vals, names)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 59, in handle_missing_vals
+    df = handle_missing.run(df, datatypes, names)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 179, in run
+    df = impute_mar_mnar(df)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 101, in impute_mar_mnar
+    return pd.DataFrame(np.round(imputed_df), columns=df.columns)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\pandas\core\frame.py", line 672, in __init__
+    mgr = ndarray_to_mgr(
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\pandas\core\internals\construction.py", line 324, in ndarray_to_mgr
+    _check_values_indices_shape_match(values, index, columns)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\pandas\core\internals\construction.py", line 393, in _check_values_indices_shape_match
+    raise ValueError(f"Shape of passed values is {passed}, indices imply {implied}")
+ValueError: Shape of passed values is (8378, 59), indices imply (8378, 123)

@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 96, in <module>
+    X, y = main.run(data=X, y=y)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 201, in run
+    unique_string_cols, require_enc_unique = apply_process_unique(unique_string_cols, unique_string_dts, dense_encoding)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 88, in apply_process_unique
+    result, encoding = process_stringtype.run(df[col].to_frame(), stringtype, dense)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\process_stringtype.py", line 552, in run
+    result, encode = eval('process_{}(df_unique, df, dense)'.format(stringtype))
+  File "<string>", line 1, in <module>
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\process_stringtype.py", line 371, in process_numerical
+    processed_nums.sort(key=lambda x: x[1])
+TypeError: '<' not supported between instances of 'list' and 'int'

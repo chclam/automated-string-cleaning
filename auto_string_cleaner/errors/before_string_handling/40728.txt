@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 89, in <module>
+    data = oml.datasets.get_dataset(dataset_id)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\datasets\functions.py", line 444, in get_dataset
+    raise e
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\datasets\functions.py", line 415, in get_dataset
+    features_file = _get_dataset_features_file(did_cache_dir, dataset_id)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\datasets\functions.py", line 1087, in _get_dataset_features_file
+    features_xml = openml._api_calls._perform_api_call(url_extension, "get")
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\_api_calls.py", line 67, in _perform_api_call
+    response = __read_url(url, request_method, data)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\_api_calls.py", line 205, in __read_url
+    return _send_request(
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\_api_calls.py", line 237, in _send_request
+    __check_response(response=response, url=url, file_elements=files)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\_api_calls.py", line 284, in __check_response
+    raise __parse_server_exception(response, url, file_elements=file_elements)
+openml.exceptions.OpenMLServerException: https://www.openml.org/api/v1/xml/data/features/40728 returned code 273: Dataset not processed yet - None

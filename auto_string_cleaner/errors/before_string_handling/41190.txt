@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 89, in <module>
+    data = oml.datasets.get_dataset(dataset_id)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\datasets\functions.py", line 429, in get_dataset
+    arff_file = _get_dataset_arff(description) if download_data else None
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\datasets\functions.py", line 1050, in _get_dataset_arff
+    openml._api_calls._download_text_file(
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\_api_calls.py", line 154, in _download_text_file
+    response = __read_url(source, request_method="get", md5_checksum=md5_checksum)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\_api_calls.py", line 205, in __read_url
+    return _send_request(
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\_api_calls.py", line 239, in _send_request
+    raise OpenMLHashException(
+openml.exceptions.OpenMLHashException: Checksum of downloaded file is unequal to the expected checksum 90e867a2d07b4ddad247dc325fe92c6b when downloading https://www.openml.org/data/v1/download/19335988/cwurData.arff. Raised when downloading dataset 41190.

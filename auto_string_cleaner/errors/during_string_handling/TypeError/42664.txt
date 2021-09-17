@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 95, in <module>
+    X, y = main.run(data=X, y=y)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 178, in run
+    data, datatypes = handle_outlier_vals(data, datatypes, outlier_vals, names)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 73, in handle_outlier_vals
+    return handle_outliers.run(df, datatypes, outlier_vals, names)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_outliers.py", line 112, in run
+    close_matches = compute_close_matches(unique_vals, out)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_outliers.py", line 81, in compute_close_matches
+    return list(set(difflib.get_close_matches(suspect, df)))
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\difflib.py", line 736, in get_close_matches
+    if s.real_quick_ratio() >= cutoff and \
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\difflib.py", line 690, in real_quick_ratio
+    la, lb = len(self.a), len(self.b)
+TypeError: object of type 'NoneType' has no len()

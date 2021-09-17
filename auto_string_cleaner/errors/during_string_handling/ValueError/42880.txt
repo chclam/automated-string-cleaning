@@ -1,0 +1,39 @@
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 95, in <module>
+    X, y = main.run(data=X, y=y)
+ValueError: too many values to unpack (expected 2)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 168, in run
+    if mcar_test(df) >= 0.05:
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 46, in mcar_test
+    parta = np.dot(means.T, np.linalg.solve(select_cov, np.identity(select_cov.shape[1])))
+  File "<__array_function__ internals>", line 5, in solve
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\numpy\linalg\linalg.py", line 393, in solve
+    r = gufunc(a, b, signature=signature, extobj=extobj)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\numpy\linalg\linalg.py", line 88, in _raise_linalgerror_singular
+    raise LinAlgError("Singular matrix")
+numpy.linalg.LinAlgError: Singular matrix
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 102, in <module>
+    X = main.run(data=X)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 174, in run
+    data = handle_missing_vals(data, datatypes, missing_vals, names)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 59, in handle_missing_vals
+    df = handle_missing.run(df, datatypes, names)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 179, in run
+    df = impute_mar_mnar(df)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 101, in impute_mar_mnar
+    return pd.DataFrame(np.round(imputed_df), columns=df.columns)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\pandas\core\frame.py", line 672, in __init__
+    mgr = ndarray_to_mgr(
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\pandas\core\internals\construction.py", line 324, in ndarray_to_mgr
+    _check_values_indices_shape_match(values, index, columns)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\pandas\core\internals\construction.py", line 393, in _check_values_indices_shape_match
+    raise ValueError(f"Shape of passed values is {passed}, indices imply {implied}")
+ValueError: Shape of passed values is (7027, 64), indices imply (7027, 65)

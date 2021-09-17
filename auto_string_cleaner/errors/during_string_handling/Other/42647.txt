@@ -1,0 +1,46 @@
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 95, in <module>
+    X, y = main.run(data=X, y=y)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 201, in run
+    unique_string_cols, require_enc_unique = apply_process_unique(unique_string_cols, unique_string_dts, dense_encoding)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 88, in apply_process_unique
+    result, encoding = process_stringtype.run(df[col].to_frame(), stringtype, dense)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\process_stringtype.py", line 555, in run
+    result, encode = eval('process_{}(df_unique)'.format(stringtype))
+  File "<string>", line 1, in <module>
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\process_stringtype.py", line 450, in process_sentence
+    tokenized = nltk.word_tokenize(sent)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\nltk\tokenize\__init__.py", line 130, in word_tokenize
+    sentences = [text] if preserve_line else sent_tokenize(text, language)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\nltk\tokenize\__init__.py", line 107, in sent_tokenize
+    tokenizer = load("tokenizers/punkt/{0}.pickle".format(language))
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\nltk\data.py", line 750, in load
+    opened_resource = _open(resource_url)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\nltk\data.py", line 875, in _open
+    return find(path_, path + [""]).open()
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\nltk\data.py", line 583, in find
+    raise LookupError(resource_not_found)
+LookupError: 
+**********************************************************************
+  Resource [93mpunkt[0m not found.
+  Please use the NLTK Downloader to obtain the resource:
+
+  [31m>>> import nltk
+  >>> nltk.download('punkt')
+  [0m
+  For more information see: https://www.nltk.org/data.html
+
+  Attempted to load [93mtokenizers/punkt/english.pickle[0m
+
+  Searched in:
+    - 'C:\\Users\\renso/nltk_data'
+    - 'C:\\Users\\renso\\anaconda3\\envs\\automated-string-cleaning\\nltk_data'
+    - 'C:\\Users\\renso\\anaconda3\\envs\\automated-string-cleaning\\share\\nltk_data'
+    - 'C:\\Users\\renso\\anaconda3\\envs\\automated-string-cleaning\\lib\\nltk_data'
+    - 'C:\\Users\\renso\\AppData\\Roaming\\nltk_data'
+    - 'C:\\nltk_data'
+    - 'D:\\nltk_data'
+    - 'E:\\nltk_data'
+    - ''
+**********************************************************************
+

@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 168, in run
+    if mcar_test(df) >= 0.05:
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 29, in mcar_test
+    mdp = np.dot(r, list(map(lambda x: math.pow(2, x), range(n_var))))
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 29, in <lambda>
+    mdp = np.dot(r, list(map(lambda x: math.pow(2, x), range(n_var))))
+OverflowError: math range error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 96, in <module>
+    X, y = main.run(data=X, y=y)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 174, in run
+    data = handle_missing_vals(data, datatypes, missing_vals, names)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 59, in handle_missing_vals
+    df = handle_missing.run(df, datatypes, names)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 179, in run
+    df = impute_mar_mnar(df)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 100, in impute_mar_mnar
+    imputed_df = imp.fit_transform(df)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\impute\_iterative.py", line 657, in fit_transform
+    Xt, estimator = self._impute_one_feature(
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\impute\_iterative.py", line 309, in _impute_one_feature
+    estimator.fit(X_train, y_train)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\linear_model\_bayes.py", line 296, in fit
+    self.sigma_ = (1. / alpha_) * scaled_sigma_
+numpy.core._exceptions._ArrayMemoryError: Unable to allocate 124. MiB for an array with shape (4025, 4025) and data type float64
