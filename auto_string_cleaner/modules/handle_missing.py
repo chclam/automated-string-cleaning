@@ -4,7 +4,7 @@ import pandas as pd
 import scipy.stats as st
 from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import SimpleImputer, IterativeImputer
-from sklearn.preprocessing import OrdinalEncoder
+from sklearn.preprocessing import OrdinalEncoder, StandardScaler
 from numpy.linalg import LinAlgError
 
 
@@ -102,7 +102,13 @@ def impute_mar_mnar(df):
     :return: a pandas DataFrame whose missing values are imputed.
     """
     imp = IterativeImputer(missing_values=np.nan)
-    imputed_df = imp.fit_transform(df)
+    try:
+        imputed_df = imp.fit_transform(df)
+    except ValueError:  # Error can occur when values are too big and need to be scaled
+        scaler = StandardScaler()
+        scaled_df = scaler.fit_transform(df)
+        imputed_df = imp.fit_transform(scaled_df)
+        imputed_df = scaler.inverse_transform(imputed_df)  # Inverse scaling procedure
     return pd.DataFrame(np.round(imputed_df), columns=df.columns)
 
 
