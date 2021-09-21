@@ -5,6 +5,7 @@ import scipy.stats as st
 from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import SimpleImputer, IterativeImputer
 from sklearn.preprocessing import OrdinalEncoder
+from numpy.linalg import LinAlgError
 
 
 def mcar_test(df):
@@ -43,7 +44,11 @@ def mcar_test(df):
         means = dataset_temp.reindex(select_vars, axis=1).mean() - gmean.reindex(select_vars, axis=1)
         select_cov = gcov.reindex(index=select_vars, columns=select_vars)
         mj = len(dataset_temp)
-        parta = np.dot(means.T, np.linalg.solve(select_cov, np.identity(select_cov.shape[1])))
+        try:
+            parta = np.dot(means.T, np.linalg.solve(select_cov, np.identity(select_cov.shape[1])))
+        except LinAlgError:  # Add a little bit of noise in the data in case of a singular matrix
+            select_cov = select_cov + 0.00001*np.random.rand(select_cov.shape[0], select_cov.shape[1])
+            parta = np.dot(means.T, np.linalg.solve(select_cov, np.identity(select_cov.shape[1])))
         d2 += mj * (np.dot(parta, means))
 
     deg_free = pj - n_var
