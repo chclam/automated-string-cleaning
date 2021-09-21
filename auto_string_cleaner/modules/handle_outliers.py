@@ -78,6 +78,7 @@ def compute_close_matches(df, suspect):
     :param suspect: a String representing the potential outlier.
     :return: a List of Sets containing all String entries that are a close match to suspect.
     """
+    df = list(filter(None, df))  # We might have none values in df, so we filter them out
     return list(set(difflib.get_close_matches(suspect, df)))
 
 
