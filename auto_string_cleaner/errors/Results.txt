@@ -1,7 +1,16 @@
 4 out of 257 datasets failed before string handling --> OpenML issue
 
 55 out of 257 datasets failed during string handling
-- ValueErrors: Two types of similar errors in handle_missing.py
+- ValueErrors: Two types of similar errors in handle_missing.py --> Fixed!
+
 - TypeErrors: Two types of errors, one in machines not recognizing data and one in outliers
+	- Not recognizing machines: Num ranges with strings in the values 
+		- 27, 42 1023 (copy of 42): String values in actual num_range columns. String values either indicate unknown data or "lt" --> less than
+		- 42123: Column values are ISSN, an identification number that can contain an X in the end.
+		- 42727: This is a zip code column, but sometimes with values like 70005 and sometimes 46268-3007. This is confusing the code.
+		First one could maybe be done via extension of the machine
+		Last two definitely need to be done via making them generic strings
+	- Outliers one: Fixed for 1 out of 3 datasets, other 2 datasets have issues with None values
+
 - KeyErrors: More type of errors
 - Others: OverFlowError (math range) or LookUpError (NLTK data not found)
