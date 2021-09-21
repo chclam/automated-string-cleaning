@@ -259,7 +259,7 @@ def run(data, y=None, encode=True, dense_encoding=True, display_info=True):
                                                                                                            'zipcode'])
                         else 'Custom' if info.at[x, 'Type'] in ['boolean', 'coordinate', 'date-iso-8601', 'date-eu',
                                                                 'gender', 'month', 'numerical']
-                        else 'MinHashEncoder' for x in (list(string_cols.columns) + list(unique_string_cols.columns))
+                        else 'MinHashEncoder' for x in (list(data.columns))
                     }
 
         for name, mapping in zip(['Ordinal?', 'Encoding'], [check_ord, enc_used]):
