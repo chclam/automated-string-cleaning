@@ -79,6 +79,7 @@ def compute_close_matches(df, suspect):
     :return: a List of Sets containing all String entries that are a close match to suspect.
     """
     df = list(filter(None, df))  # We might have none values in df, so we filter them out
+    df = [str(x) for x in df if type(x) != str]  # Sometimes the entries in df aren't strings, but they need to be
     return list(set(difflib.get_close_matches(suspect, df)))
 
 
@@ -102,6 +103,10 @@ def run(df, datatypes, outliers, names):
             # Switch datatype to string
             df[col] = df[col].astype(str)
             datatypes[i] = 'string'
+
+        # Check if the values in unique_freq are strings, otherwise convert them
+        if unique_freq.index.dtype != 'str':
+            unique_freq.index.map(str)
 
         # Check the outliers detected by ptype, excluding sentences since these are mostly false negatives
         elif outlier and dt != 'sentence':
