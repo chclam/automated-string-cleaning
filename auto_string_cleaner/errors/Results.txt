@@ -4,13 +4,16 @@
 - ValueErrors: Two types of similar errors in handle_missing.py --> Fixed!
 
 - TypeErrors: Two types of errors, one in machines not recognizing data and one in outliers
-	- Not recognizing machines: Num ranges with strings in the values 
-		- 27, 42 1023 (copy of 42): String values in actual num_range columns. String values either indicate unknown data or "lt" --> less than
+	- Not recognizing machines: Num ranges with strings in the values
+		Definitely fix with generic string:
 		- 42123: Column values are ISSN, an identification number that can contain an X in the end.
-		- 42727: This is a zip code column, but sometimes with values like 70005 and sometimes 46268-3007. This is confusing the code.
-		First one could maybe be done via extension of the machine
-		Last two definitely need to be done via making them generic strings
-	- Outliers one: Fixed for 1 out of 3 datasets, other 2 datasets have issues with None values
+		- 42727, 42159, 42723: This is a zip code column, but sometimes with values like 70005 and sometimes 46268-3007. This is confusing the code and breaks it.
+		Not sure yet if I want to extend machine or make generic string:
+		- 27, 42 1023 (copy of 42): String values in actual num_range columns. String values can indicate multiple things
+		- 42133: This column contains percentages and breaks on values where there is 65.5% (the dot breaks it)
+	- Outliers error: Fixed for 1 out of 3 datasets, other 2 datasets have issues with None values (42655 & 42652)
 
-- KeyErrors: More type of errors
-- Others: OverFlowError (math range) or LookUpError (NLTK data not found)
+- KeyErrors: Large portion fixed where indices needed to be strings, not other types. Still a few left.
+- Others: OverFlowError (math range),  LookUpError (NLTK data not found) or AttributeError 
+	- OverFlowError is due to maximum memory being used (4k+ features in the dataset doesn't fit in my 32GB RAM)
+	- AttributeError is due to only 1 row in the dataset.

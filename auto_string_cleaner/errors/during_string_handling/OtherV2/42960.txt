@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 95, in <module>
+    X, y = main.run(data=X, y=y)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 218, in run
+    string_cols = apply_encoding(string_cols, y, results_gbc, dense_encoding)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 129, in apply_encoding
+    df[col] = df[col].map(encode_data.run(df, y, df[col], val, dense, balanced))
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\encode_data.py", line 76, in run
+    x: (val[0] if encode_type == 0 else val) for x, val in zip(column, enc.fit_transform(column.to_frame()))
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\base.py", line 699, in fit_transform
+    return self.fit(X, **fit_params).transform(X)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\dirty_cat\minhash_encoder.py", line 204, in transform
+    X_out[i, :] = self.hash_dict[x] = self.get_fast_hash(x)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\dirty_cat\minhash_encoder.py", line 145, in get_fast_hash
+    return np.array([ngram_min_hash(string, self.ngram_range, seed)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\dirty_cat\minhash_encoder.py", line 145, in <listcomp>
+    return np.array([ngram_min_hash(string, self.ngram_range, seed)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\dirty_cat\fast_hash.py", line 71, in ngram_min_hash
+    array = np.frombuffer(string.encode(), dtype='int8', count=len(string))
+AttributeError: 'NoneType' object has no attribute 'encode'

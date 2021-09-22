@@ -1,0 +1,50 @@
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 95, in <module>
+    X, y = main.run(data=X, y=y)
+ValueError: too many values to unpack (expected 2)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 181, in run
+    df = impute_mcar(df, datatypes, names)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 94, in impute_mcar
+    df[col] = imp_mean.fit_transform(df[col])
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\base.py", line 699, in fit_transform
+    return self.fit(X, **fit_params).transform(X)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\impute\_base.py", line 288, in fit
+    X = self._validate_input(X, in_fit=True)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\impute\_base.py", line 262, in _validate_input
+    raise ve
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\impute\_base.py", line 252, in _validate_input
+    X = self._validate_data(X, reset=in_fit,
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\base.py", line 421, in _validate_data
+    X = check_array(X, **check_params)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\utils\validation.py", line 63, in inner_f
+    return f(*args, **kwargs)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\utils\validation.py", line 694, in check_array
+    raise ValueError(
+ValueError: Expected 2D array, got 1D array instead:
+array=[ 0.20055   0.20912   0.24866  ...  0.006338 -0.041643  0.014946].
+Reshape your data either using array.reshape(-1, 1) if your data has a single feature or array.reshape(1, -1) if it contains a single sample.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 102, in <module>
+    X = main.run(data=X)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 174, in run
+    data = handle_missing_vals(data, datatypes, missing_vals, names)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 59, in handle_missing_vals
+    df = handle_missing.run(df, datatypes, names)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 190, in run
+    df = impute_mar_mnar(df)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\handle_missing.py", line 112, in impute_mar_mnar
+    return pd.DataFrame(np.round(imputed_df), columns=df.columns)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\pandas\core\frame.py", line 672, in __init__
+    mgr = ndarray_to_mgr(
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\pandas\core\internals\construction.py", line 324, in ndarray_to_mgr
+    _check_values_indices_shape_match(values, index, columns)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\pandas\core\internals\construction.py", line 393, in _check_values_indices_shape_match
+    raise ValueError(f"Shape of passed values is {passed}, indices imply {implied}")
+ValueError: Shape of passed values is (7027, 64), indices imply (7027, 65)

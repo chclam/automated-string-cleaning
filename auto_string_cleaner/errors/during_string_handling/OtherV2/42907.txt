@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 95, in <module>
+    X, y = main.run(data=X, y=y)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 162, in run
+    schema, names = inference_ptype(data)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 21, in inference_ptype
+    return infer_ptype.infer(df)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\infer_ptype.py", line 24, in infer
+    return ptype.schema_fit(df), names
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\ptype\Ptype.py", line 50, in schema_fit
+    probabilities_dict = self.machines.machine_probabilities(unique_vs)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\ptype\Machines.py", line 34, in machine_probabilities
+    return {v: [m.probability(str(v)) for m in self.machines] for v in col}
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\ptype\Machines.py", line 34, in <dictcomp>
+    return {v: [m.probability(str(v)) for m in self.machines] for v in col}
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\ptype\Machines.py", line 34, in <listcomp>
+    return {v: [m.probability(str(v)) for m in self.machines] for v in col}
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\ptype\Machine.py", line 157, in probability
+    _, candidate_path_prob, _ = self.find_possible_targets(
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\ptype\Machine.py", line 126, in find_possible_targets
+    ) = self.find_possible_targets(
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\ptype\Machine.py", line 126, in find_possible_targets
+    ) = self.find_possible_targets(
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\ptype\Machine.py", line 126, in find_possible_targets
+    ) = self.find_possible_targets(
+  [Previous line repeated 987 more times]
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\ptype\Machine.py", line 105, in find_possible_targets
+    if current_index == len(word):
+RecursionError: maximum recursion depth exceeded while calling a Python object

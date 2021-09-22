@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 95, in <module>
+    X, y = main.run(data=X, y=y)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 218, in run
+    string_cols = apply_encoding(string_cols, y, results_gbc, dense_encoding)
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\main.py", line 129, in apply_encoding
+    df[col] = df[col].map(encode_data.run(df, y, df[col], val, dense, balanced))
+  File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\modules\encode_data.py", line 76, in run
+    x: (val[0] if encode_type == 0 else val) for x, val in zip(column, enc.fit_transform(column.to_frame()))
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\sklearn\base.py", line 699, in fit_transform
+    return self.fit(X, **fit_params).transform(X)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\dirty_cat\gap_encoder.py", line 302, in fit
+    unq_X, unq_V, lookup = self._init_vars(X)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\dirty_cat\gap_encoder.py", line 188, in _init_vars
+    unq_X, lookup = np.unique(X, return_inverse=True)
+  File "<__array_function__ internals>", line 5, in unique
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\numpy\lib\arraysetops.py", line 262, in unique
+    ret = _unique1d(ar, return_index, return_inverse, return_counts)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\numpy\lib\arraysetops.py", line 320, in _unique1d
+    perm = ar.argsort(kind='mergesort' if return_index else 'quicksort')
+TypeError: '<' not supported between instances of 'NoneType' and 'str'

@@ -1,18 +1,24 @@
 Traceback (most recent call last):
   File "C:\Rens\Universiteit\Master\Jaar 2\Q1\Capita Selecta\automated-string-cleaning\auto_string_cleaner\testing_datasets.py", line 89, in <module>
-    data = oml.datasets.get_dataset(dataset_id)
-  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\datasets\functions.py", line 444, in get_dataset
+    X, y, _, _ = data.get_data(target=data.default_target_attribute)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\datasets\dataset.py", line 698, in get_data
+    data, categorical, attribute_names = self._load_data()
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\datasets\dataset.py", line 531, in _load_data
+    return self._cache_compressed_file_from_file(file_to_load)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\datasets\dataset.py", line 488, in _cache_compressed_file_from_file
+    data, categorical, attribute_names = self._parse_data_from_arff(data_file)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\datasets\dataset.py", line 381, in _parse_data_from_arff
+    data = self._get_arff(self.format)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\datasets\dataset.py", line 361, in _get_arff
+    return decode_arff(fh)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\datasets\dataset.py", line 354, in decode_arff
+    return decoder.decode(fh, encode_nominal=True, return_type=return_type)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\arff.py", line 896, in decode
     raise e
-  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\datasets\functions.py", line 415, in get_dataset
-    features_file = _get_dataset_features_file(did_cache_dir, dataset_id)
-  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\datasets\functions.py", line 1087, in _get_dataset_features_file
-    features_xml = openml._api_calls._perform_api_call(url_extension, "get")
-  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\_api_calls.py", line 67, in _perform_api_call
-    response = __read_url(url, request_method, data)
-  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\_api_calls.py", line 205, in __read_url
-    return _send_request(
-  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\_api_calls.py", line 237, in _send_request
-    __check_response(response=response, url=url, file_elements=files)
-  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\openml\_api_calls.py", line 284, in __check_response
-    raise __parse_server_exception(response, url, file_elements=file_elements)
-openml.exceptions.OpenMLServerException: https://www.openml.org/api/v1/xml/data/features/40728 returned code 273: Dataset not processed yet - None
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\arff.py", line 892, in decode
+    return self._decode(s, encode_nominal=encode_nominal,
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\arff.py", line 823, in _decode
+    attr = self._decode_attribute(row)
+  File "C:\Users\renso\anaconda3\envs\automated-string-cleaning\lib\site-packages\arff.py", line 765, in _decode_attribute
+    raise BadAttributeType()
+arff.BadAttributeType: Bad @ATTRIBUTE type, at line 10.
