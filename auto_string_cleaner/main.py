@@ -80,7 +80,8 @@ def apply_process_unique(df, stringtypes, dense):
     :param stringtypes: a List of Strings representing the inferred string feature of each column.
     :param dense: a Boolean indicating whether multi-dimensional encodings need to be stored in a single column or not.
     :return: a pandas DataFrame consisting of processed string feature columns; a List of Lists containing Integers
-             that indicate whether/which type of encoding is required for each processed string feature column.
+             that indicate whether/which type of encoding is required for each processed string feature column;
+             a pandas Dataframe consisting of faulty columns that failed to process (if there are any).
     """
     processed_df = pd.DataFrame()
     require_encoding = []
