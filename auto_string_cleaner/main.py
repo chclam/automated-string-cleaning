@@ -84,17 +84,21 @@ def apply_process_unique(df, stringtypes, dense):
     """
     processed_df = pd.DataFrame()
     require_encoding = []
+    faulty_cols = pd.DataFrame()
     for col, stringtype in zip(df, stringtypes):
-        result, encoding = process_stringtype.run(df[col].to_frame(), stringtype, dense)
-        df.reset_index(drop=True, inplace=True)
-        processed_df = pd.concat([processed_df, result], axis=1)
+        try:
+            result, encoding = process_stringtype.run(df[col].to_frame(), stringtype, dense)
+            df.reset_index(drop=True, inplace=True)
+            processed_df = pd.concat([processed_df, result], axis=1)
 
-        if type(encoding) == list:
-            require_encoding.extend(encoding)
-        else:
-            require_encoding.append(encoding)
+            if type(encoding) == list:
+                require_encoding.extend(encoding)
+            else:
+                require_encoding.append(encoding)
+        except TypeError:  # TypeError occurs when col isn't suitable for process_stringtype
+            faulty_cols = pd.concat([faulty_cols, df[col]], axis=1)  # Add col to faulty_cols DataFrame
 
-    return processed_df, require_encoding
+    return processed_df, require_encoding, faulty_cols
 
 
 def apply_encoding(df, y, results, dense):
@@ -198,12 +202,14 @@ def run(data, y=None, encode=True, dense_encoding=True, display_info=True):
 
     # Process unique strings and boolean / date types
     print('> Processing string features in the data...')
-    unique_string_cols, require_enc_unique = apply_process_unique(unique_string_cols, unique_string_dts, dense_encoding)
-    bool_cols, _ = apply_process_unique(bool_cols, bool_dts, dense_encoding)
-    date_cols, _ = apply_process_unique(date_cols, date_dts, dense_encoding)
+    unique_string_cols, require_enc_unique, faulty_cols = apply_process_unique(unique_string_cols, unique_string_dts, dense_encoding)
+    bool_cols, _, _ = apply_process_unique(bool_cols, bool_dts, dense_encoding)
+    date_cols, _, _ = apply_process_unique(date_cols, date_dts, dense_encoding)
 
     # If cannot infer using given PFSMs, gather features and infer nominal / ordinal using GradientBoostingClassifier
     print('> Predicting ordinality of string columns without string features...')
+    if not faulty_cols.empty:  # If there are faulty columns, concat them to the standard string cols
+        string_cols = pd.concat([string_cols, faulty_cols], axis=1)
     results_heur = extract_features_gbc(string_cols)
 
     if results_heur:
