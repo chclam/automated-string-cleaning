@@ -198,4 +198,4 @@ def run(df, datatypes, names, y):
     df = decode_strings(df, datatypes, names, encoded_vals)
     names.remove('string')
     names.remove('date-eu')
-    return df
+    return df, y
