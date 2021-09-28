@@ -39,7 +39,7 @@ def extract_features_gbc(df):
     return extract_features.run(df)
 
 
-def handle_missing_vals(df, datatypes, missing_vals, names):
+def handle_missing_vals(df, datatypes, missing_vals, names, y):
     """ Handle missing values in the data.
 
     :param df: a pandas DataFrame consisting of the data with potential missing values.
@@ -47,6 +47,7 @@ def handle_missing_vals(df, datatypes, missing_vals, names):
     :param missing_vals: a List of Lists that can contain Strings, where each String represents a missing value in a
                          column.
     :param names: a List of Strings containing all string feature types that we can infer using PFSMs.
+    :param: y: a pandas Series that contains the target variable such that we can delete missing values in there as well
     :return: a pandas DataFrame without missing values.
     """
     any_missing = False
@@ -56,8 +57,8 @@ def handle_missing_vals(df, datatypes, missing_vals, names):
             df[col].fillna(value=np.nan, inplace=True)
             df[col].replace(to_replace=missing, value=np.nan, inplace=True)
     if any_missing:
-        df = handle_missing.run(df, datatypes, names)
-    return df
+        df, y = handle_missing.run(df, datatypes, names, y)
+    return df, y
 
 
 def handle_outlier_vals(df, datatypes, outlier_vals, names):
@@ -176,7 +177,7 @@ def run(data, y=None, encode=True, dense_encoding=True, display_info=True):
 
     # Impute missing values
     print('> Checking and handling any missing values...')
-    data = handle_missing_vals(data, datatypes, missing_vals, names)
+    data, y = handle_missing_vals(data, datatypes, missing_vals, names, y)
 
     # Handle outliers in data
     print('> Checking and handling any string and data type outliers...')

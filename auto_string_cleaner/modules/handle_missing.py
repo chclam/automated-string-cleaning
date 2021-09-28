@@ -68,13 +68,16 @@ def calc_ratio_missing(df):
     return len(df[df.isnull().any(axis=1)]) / df.shape[0]
 
 
-def delete_rows(df):
+def delete_rows(df, y):
     """ Delete rows containing missing values.
 
     :param df: a pandas DataFrame containing missing values.
     :return: a pandas DataFrame without missing values.
     """
-    return df.dropna()
+    missing_indices = df.index.difference(df.dropna().index)
+    if y is not None:
+        y = y.drop(missing_indices)
+    return df.dropna(), y
 
 
 def impute_mcar(df, datatypes, names):
@@ -155,19 +158,20 @@ def decode_strings(df, datatypes, names, encoded_vals):
     return df
 
 
-def run(df, datatypes, names):
+def run(df, datatypes, names, y):
     """ Determine the most fitting missing value imputer and execute accordingly.
 
     :param df: a pandas DataFrame consisting of missing values.
     :param datatypes: a List of Strings representing the ptype-inferred data type for each column in df.
     :param names: a List of Strings representing all string-type names that can be inferred by ptype.
+    :param: y: a pandas Series that contains the target variable such that we can delete missing values in there as well
     :return: a pandas DataFrame whose missing values are deleted/imputed.
     """
     if calc_ratio_missing(df) < 0.05:
         # Since less than 5% of the data is missing, removing the missing values will have no significant impact
         # on the performance
         print('>> Removed rows containing missing values')
-        return delete_rows(df)
+        return delete_rows(df, y)
 
     # Encode string data so it can be imputed
     names.append('string')
