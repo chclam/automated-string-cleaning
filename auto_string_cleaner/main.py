@@ -125,7 +125,7 @@ def apply_encoding(df, y, results, dense):
             # No encoding is required
             continue
         else:
-            if val == 1 and df[col].value_counts().count() < 30:
+            if val == 1 and df[col].value_counts().count() < 30 and balanced:
                 # A nominal encoding is required
                 df[col] = encode_data.run(df, y, df[col], val, dense, balanced)
             elif val == 1 and not dense:
@@ -252,7 +252,7 @@ def run(data, y=None, encode=True, dense_encoding=True, display_info=True):
 
         enc_used = {x:
                         'OrdinalEncoder' if x in check_ord and check_ord[x] == 'Yes'
-                        else 'TargetEncoder' if info.at[x, 'Number of unique values'] < 30 or (
+                        else 'SimilarityEncoder' if info.at[x, 'Number of unique values'] < 30 or (
                                     info.at[x, 'Number of unique values'] < 30 and info.at[x, 'Type'] in ['day',
                                                                                                           'email',
                                                                                                           'filepath',

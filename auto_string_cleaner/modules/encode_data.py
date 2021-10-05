@@ -52,8 +52,8 @@ def run(df, y, column, encode_type, dense, balanced):
                 # Encode using TargetEncoder
                 enc = TargetEncoder()
             else:
-                # Encode using TargetEncoder (for GAMA, SimilarityEncoder doesn't work)
-                enc = TargetEncoder()
+                # Encode using SimilarityEncoder
+                enc = SimilarityEncoder()
         elif column.value_counts().count() < 100:
             # Data has medium to high cardinality. Encode using GapEncoder
             enc = GapEncoder()
@@ -61,7 +61,7 @@ def run(df, y, column, encode_type, dense, balanced):
             # Data has high cardinality. Encode using MinHashEncoder
             enc = MinHashEncoder()
 
-    if encode_type == 1 and column.value_counts().count() < 30:
+    if encode_type == 1 and column.value_counts().count() < 30 and balanced:
         return enc.fit_transform(column, y)
     elif encode_type == 1 and not dense:
         # Create a column for each dimension and return the resulting DataFrame
