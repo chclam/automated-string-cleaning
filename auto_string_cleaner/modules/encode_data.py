@@ -68,7 +68,7 @@ def run(df, y, column, encode_type, dense, balanced):
         encoding = enc.fit_transform(np.array(column).reshape((-1, 1)))
         df = df.drop(columns=column.name)
         dim_len = len(encoding[0])
-        encoding = pd.DataFrame([encoding[i] for i in range(len(encoding))])
+        encoding = pd.DataFrame([encoding[i] for i in range(len(encoding))], index=column.index)
         encoding = encoding.rename(columns={i: column.name + str(i) for i in range(dim_len)})
         return pd.concat([df, encoding], axis=1)
     else:
