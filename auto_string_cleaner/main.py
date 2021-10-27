@@ -90,7 +90,6 @@ def apply_process_unique(df, stringtypes, dense):
     for col, stringtype in zip(df, stringtypes):
         try:
             result, encoding = process_stringtype.run(df[col].to_frame(), stringtype, dense)
-            df.reset_index(drop=True, inplace=True)
             processed_df = pd.concat([processed_df, result], axis=1)
 
             if type(encoding) == list:
