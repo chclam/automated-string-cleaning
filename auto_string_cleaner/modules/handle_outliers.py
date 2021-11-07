@@ -98,15 +98,14 @@ def run(df, datatypes, outliers, names):
         unique_vals = list(df[col].unique())
         unique_freq = df[col].value_counts()
 
+        # Enforce values to be string because it can cause an error otherwise.
+        unique_freq.index.map(str)
+
         # If all values are seen as an outlier, then something went wrong during ptype inference
         if len(unique_vals) == len(outlier):
             # Switch datatype to string
             df[col] = df[col].astype(str)
             datatypes[i] = 'string'
-
-        # Check if the values in unique_freq are strings, otherwise convert them
-        if unique_freq.index.dtype != 'str':
-            unique_freq.index.map(str)
 
         # Check the outliers detected by ptype, excluding sentences since these are mostly false negatives
         elif outlier and dt != 'sentence':
