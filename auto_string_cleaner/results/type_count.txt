@@ -1,0 +1,1 @@
+{'success': 29219, 'fail': 5, 'float': 24842, 'integer': 1497, 'string': 1745, 'boolean': 1010, 'numerical': 22, 'date-iso-8601': 27, 'url': 7, 'sentence': 23, 'zipcode': 17, 'filepath': 15, 'date-eu': 5, 'date-non-std': 2, 'day': 2, 'month': 2, 'date-non-std-subtype': 3}
