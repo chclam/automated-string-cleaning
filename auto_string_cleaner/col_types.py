@@ -38,20 +38,20 @@ if __name__ == "__main__":
   for d_id in D_IDS:
     counter = {"id": d_id}
     try:
-      # Load dataset from OpenML
       dataset = get_dataset(d_id)
-      X, y, categorical_indicator, attribute_names = dataset.get_data(
-        target=dataset.default_target_attribute, dataset_format="dataframe"
-      )
+      X, y, _, _ = dataset.get_data(
+        target=dataset.default_target_attribute, dataset_format="dataframe")
       schema = ti.infer(X)
+      types = [col.type for col in schema.cols.values()]
+      for t in types:
+        if t not in counter:
+          counter[t] = 1
+        else:
+          counter[t] += 1
+      out.append(counter)
     except Exception:
       log_error(d_id)
-    types = [col.type for col in schema.cols.values()]
-    for t in types:
-      if t not in counter:
-        counter[t] = 1
-      else:
-        counter[t] += 1
-    out.append(counter)
-  with open("results/type_count_per_set.json", "w") as outfile:
-    outfile.write(json.dumps({"data": out}))
+  if len(out) > 0:
+    with open("results/type_count_per_set.json", "w") as outfile:
+      outfile.write(json.dumps({"data": out}))
+
