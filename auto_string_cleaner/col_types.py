@@ -34,7 +34,7 @@ if __name__ == "__main__":
   with open("datasets/openml_ids.txt", "r") as f:
     D_IDS = [int(x) for x in f.read().split(", ")]
   ti = TypeInferer()
-  out = {"data": []}
+  out = []
   for d_id in D_IDS:
     counter = {"id": d_id}
     try:
@@ -47,7 +47,6 @@ if __name__ == "__main__":
       log_error(d_id)
       continue
     try:
-      # Count the infered types from the set
       schema = ti.infer(X)
       types = [col.type for col in schema.cols.values()]
       for t in types:
@@ -57,7 +56,6 @@ if __name__ == "__main__":
           counter[t] += 1
     except Exception:
       log_error(d_id)
-    out['data'].append(counter)
-  out = json.dumps(out)
-  with open("results/type_count_per_set.json", "w") as out_file:
-    out_file.write(out)
+    out.append(counter)
+  with open("results/type_count_per_set.json", "w") as outfile:
+    outfile.write(json.dumps({"data": out}))
