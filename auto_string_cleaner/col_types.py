@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-import openml
+from openml.datasets import get_dataset
 from auto_string_cleaner import main as sc
 from ptype.Ptype import Ptype
 from modules.pfsms import create_pfsm
 import traceback
+import json
 
 class TypeInferer:
   def __init__(self):
@@ -18,7 +19,7 @@ class TypeInferer:
     machines = [
       create_pfsm.Coordinate(), create_pfsm.Day(), create_pfsm.Email(),
       create_pfsm.Filepath(), create_pfsm.Month(), create_pfsm.Numerical(),
-      create_pfsm.Sentence(), create_pfsm.URL(), create_pfsm.Zipcode(),
+      create_pfsm.Sentence(), create_pfsm.URL(), create_pfsm.Zipcode()
     ]
     for name, machine in zip(names, machines):
       ptype.types.append(name)
@@ -26,42 +27,37 @@ class TypeInferer:
     return ptype
 
 def log_error(d_id):
-  with open(f"errors/{d_id}.txt", "w") as f:
+  with open(f"errors/{d_id}.txt", "a") as f:
     traceback.print_exc(file=f)
 
 if __name__ == "__main__":
   with open("datasets/openml_ids.txt", "r") as f:
     D_IDS = [int(x) for x in f.read().split(", ")]
-
-  counter = {"success": 0, "fail": 0}
   ti = TypeInferer()
-
+  out = {"data": []}
   for d_id in D_IDS:
+    counter = {"id": d_id}
     try:
-      print(f">> Loading dataset #{d_id}...")
-      dataset = openml.datasets.get_dataset(d_id)
+      # Load dataset from OpenML
+      dataset = get_dataset(d_id)
       X, y, categorical_indicator, attribute_names = dataset.get_data(
         target=dataset.default_target_attribute, dataset_format="dataframe"
       )
     except Exception:
       log_error(d_id)
-      counter["fail"] += 1
       continue
-
-    print(f">> Infering type for #{d_id}...")
     try:
+      # Count the infered types from the set
       schema = ti.infer(X)
       types = [col.type for col in schema.cols.values()]
       for t in types:
         if t not in counter:
-          counter[str(t)] = 1
+          counter[t] = 1
         else:
           counter[t] += 1
-        counter["success"] += 1
-    except Exception as e:
+    except Exception:
       log_error(d_id)
-      counter["fail"] += 1
-
-  with open("results/type_count.txt", "w") as f:
-    f.write(str(counter))
-
+    out['data'].append(counter)
+  out = json.dumps(out)
+  with open("results/type_count_per_set.json", "w") as out_file:
+    out_file.write(out)
