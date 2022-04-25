@@ -43,19 +43,15 @@ if __name__ == "__main__":
       X, y, categorical_indicator, attribute_names = dataset.get_data(
         target=dataset.default_target_attribute, dataset_format="dataframe"
       )
-    except Exception:
-      log_error(d_id)
-      continue
-    try:
       schema = ti.infer(X)
-      types = [col.type for col in schema.cols.values()]
-      for t in types:
-        if t not in counter:
-          counter[t] = 1
-        else:
-          counter[t] += 1
     except Exception:
       log_error(d_id)
+    types = [col.type for col in schema.cols.values()]
+    for t in types:
+      if t not in counter:
+        counter[t] = 1
+      else:
+        counter[t] += 1
     out.append(counter)
   with open("results/type_count_per_set.json", "w") as outfile:
     outfile.write(json.dumps({"data": out}))
