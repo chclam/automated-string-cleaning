@@ -249,25 +249,22 @@ def run(data, y=None, encode=True, dense_encoding=True, display_info=True):
         check_ord = {x: y for x, y in
                      zip(list(string_cols.columns), ['Yes' if i == 0.0 else 'No' for i in results_gbc])}
 
-        enc_used = {x:
-                        'OrdinalEncoder' if x in check_ord and check_ord[x] == 'Yes'
-                        else 'SimilarityEncoder' if info.at[x, 'Number of unique values'] < 30 or (
-                                    info.at[x, 'Number of unique values'] < 30 and info.at[x, 'Type'] in ['day',
-                                                                                                          'email',
-                                                                                                          'filepath',
-                                                                                                          'sentence',
-                                                                                                          'url',
-                                                                                                          'zipcode'])
-                        else 'GapEncoder' if info.at[x, 'Number of unique values'] < 100 or (
-                                    info.at[x, 'Number of unique values'] < 100 and info.at[x, 'Type'] in ['email',
-                                                                                                           'filepath',
-                                                                                                           'sentence',
-                                                                                                           'url',
-                                                                                                           'zipcode'])
-                        else 'Custom' if info.at[x, 'Type'] in ['boolean', 'coordinate', 'date-iso-8601', 'date-eu',
-                                                                'gender', 'month', 'numerical']
-                        else 'MinHashEncoder' for x in (list(data.columns))
-                    }
+        def get_encoder_name(col):
+            sim_types = ['day', 'email', 'filepath', 'sentence', 'url', 'zipcode']
+            gap_types = ['email', 'filepath', 'sentence', 'url', 'zipcode']
+            cust_types = ['boolean', 'coordinate', 'date-iso-8601', 'date-eu', 'gender', 'month', 'numerical']
+
+            if col in check_ord and check_ord[col] == 'Yes':
+                return 'OrdinalEncoder'  
+            if info.at[col, 'Number of unique values'] < 30 or (info.at[col, 'Number of unique values'] < 30 and info.at[col, 'Type'] in sim_types):
+                return 'SimilarityEncoder'
+            if info.at[col, 'Number of unique values'] < 100 or (info.at[col, 'Number of unique values'] < 100 and info.at[col, 'Type'] in gap_types):
+                return 'GapEncoder'
+            if info.at[col, 'Type'] in cust_types:
+                return 'Custom'
+            return "MinHashEncoder"
+
+        enc_used = {x: get_encoder_name(x) for x in list(data.columns)}
 
         for name, mapping in zip(['Ordinal?', 'Encoding'], [check_ord, enc_used]):
             mapping = pd.Series(info.index).map(mapping)
