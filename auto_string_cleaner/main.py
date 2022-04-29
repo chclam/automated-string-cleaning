@@ -252,7 +252,7 @@ def run(data, y=None, encode=True, dense_encoding=True, display_info=True):
         def get_encoder_name(col):
             cust_types = ['boolean', 'coordinate', 'date-iso-8601', 'date-eu', 'gender', 'month', 'numerical']
             # Check if col is ordinal
-            if col in check_ord and check_ord[col] == 'Yes'
+            if col in check_ord and check_ord[col] == 'Yes':
                 return 'OrdinalEncoder'  
             else:
                 if info.at[col, 'Number of unique values'] < 30:
