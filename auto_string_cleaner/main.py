@@ -250,19 +250,19 @@ def run(data, y=None, encode=True, dense_encoding=True, display_info=True):
                      zip(list(string_cols.columns), ['Yes' if i == 0.0 else 'No' for i in results_gbc])}
 
         def get_encoder_name(col):
-            sim_types = ['day', 'email', 'filepath', 'sentence', 'url', 'zipcode']
-            gap_types = ['email', 'filepath', 'sentence', 'url', 'zipcode']
             cust_types = ['boolean', 'coordinate', 'date-iso-8601', 'date-eu', 'gender', 'month', 'numerical']
-
-            if col in check_ord and check_ord[col] == 'Yes':
+            # Check if col is ordinal
+            if col in check_ord and check_ord[col] == 'Yes'
                 return 'OrdinalEncoder'  
-            if info.at[col, 'Number of unique values'] < 30 or (info.at[col, 'Number of unique values'] < 30 and info.at[col, 'Type'] in sim_types):
-                return 'SimilarityEncoder'
-            if info.at[col, 'Number of unique values'] < 100 or (info.at[col, 'Number of unique values'] < 100 and info.at[col, 'Type'] in gap_types):
-                return 'GapEncoder'
-            if info.at[col, 'Type'] in cust_types:
-                return 'Custom'
-            return "MinHashEncoder"
+            else:
+                if info.at[col, 'Number of unique values'] < 30:
+                    return 'SimilarityEncoder'
+                elif info.at[col, 'Number of unique values'] < 100:
+                    return 'GapEncoder'
+                else:
+                    if info.at[col, 'Type'] in cust_types:
+                        return 'Custom'
+                    return "MinHashEncoder"
 
         enc_used = {x: get_encoder_name(x) for x in list(data.columns)}
 
