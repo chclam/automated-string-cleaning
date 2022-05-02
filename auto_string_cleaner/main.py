@@ -102,6 +102,13 @@ def apply_process_unique(df, stringtypes, dense):
     return processed_df, require_encoding, faulty_cols
 
 
+def __is_balanced(y):
+    if y is None:
+        return False
+    # Check target class balance. Target class is balanced if the standard deviation is smaller than 10% of the mean
+    target_freq = list(y.value_counts())
+    return (np.mean(target_freq) / np.std(target_freq)) < 0.5
+
 def apply_encoding(df, y, results, dense):
     """ Encode the string columns based on the results from the GBC.
 
@@ -111,18 +118,10 @@ def apply_encoding(df, y, results, dense):
     :param dense: a Boolean indicating whether multi-dimensional encodings need to be stored in a single column or not.
     :return: a pandas DataFrame consisting of encoded columns.
     """
-    if y is not None:
-        # Check target class balance. Target class is balanced if the standard deviation is smaller than 10% of the mean
-        target_freq = list(y.value_counts())
-        mean_tf, std_tf = np.mean(target_freq), np.std(target_freq)
-        balanced = std_tf / mean_tf < 0.5
-    else:
-        balanced = False
-
+    balanced = __is_balanced(y)
     for col, val in zip(df, results):
         if val == 2:
-            # No encoding is required
-            continue
+            continue # No encoding is required
         else:
             if val == 1 and df[col].value_counts().count() < 30 and balanced:
                 # A nominal encoding is required
@@ -134,6 +133,78 @@ def apply_encoding(df, y, results, dense):
                 df[col] = df[col].map(encode_data.run(df, y, df[col], val, dense, balanced))
     return df
 
+def __get_encoder_names(df, y, results, dense):
+    balanced = __is_balanced(y)
+    ret = []
+    for col, val in zip(df, results):
+        if val == 1:
+            ret.append(type(encode_data.get_encoder(df[col], val, balanced)).__name__)
+    return ret
+
+def get_encoder_names(data, y=None, encode=True, dense_encoding=True, display_info=True):
+    for col in data:
+        # Replace the different uni-code space with a regular space
+        if data[col].dtype == 'object':
+            data[col] = data[col].map(lambda x: x.replace(u'\xa0', ' ') if type(x) == str else x)
+
+        if data[col].isnull().all():
+            data = data.drop(columns=[col])
+
+    if y is not None:
+        if encode and y.dtype not in ['int64', 'float64']:
+            le = LabelEncoder()
+            y = pd.Series(le.fit_transform(y), name=y.name)
+
+    # Infer data / string type using ptype
+    #print('> Inferring data types and string features...')
+    schema, names = inference_ptype(data)
+
+    # Store obtained data in separate variables
+    datatypes = [col.type for _, col in schema.cols.items()]
+
+    for col, dt in zip(data.keys(), datatypes):
+        if dt in ["float", "integer", "boolean"]:
+            data = data.drop(columns=[col])
+
+    datatypes = [dt for dt in datatypes if dt not in ["float", "integer", "boolean"]]
+    missing_vals = [col.get_na_values() for _, col in schema.cols.items() if col.type not in ["float", "integer", "boolean"]]
+    outlier_vals = [col.get_an_values() for _, col in schema.cols.items() if col.type not in ["float", "integer", "boolean"]]
+
+    data, y = handle_missing_vals(data, datatypes, missing_vals, names, y)
+
+    # Handle outliers in data
+    data, datatypes = handle_outlier_vals(data, datatypes, outlier_vals, names)
+
+    # Separate columns based on their inferred string feature or data type
+    unique_string_cols = data.iloc[:, [i for i in range(len(datatypes)) if datatypes[i] in names]]
+    string_cols = data.iloc[:, [i for i in range(len(datatypes)) if datatypes[i] == 'string']]
+    bool_cols = data.iloc[:, [i for i in range(len(datatypes)) if datatypes[i] in ['boolean', 'gender']]]
+    date_cols = data.iloc[:, [i for i in range(len(datatypes)) if datatypes[i] in ['date-iso-8601', 'date-eu']]]
+    other_cols = data.iloc[
+                 :,
+                 [
+                     i for i in range(len(datatypes))
+                     if datatypes[i] != 'string'
+                        and datatypes[i] not in names + ['boolean', 'gender', 'date-iso-8601', 'date-eu']
+                 ]
+                 ]
+
+    # Make a list of types for each of the split columns
+    unique_string_dts = [datatypes[i] for i in range(len(datatypes)) if datatypes[i] in names]
+    bool_dts = [datatypes[i] for i in range(len(datatypes)) if datatypes[i] in ['boolean', 'gender']]
+    date_dts = [datatypes[i] for i in range(len(datatypes)) if datatypes[i] in ['date-iso-8601', 'date-eu']]
+
+    unique_string_cols, require_enc_unique, faulty_cols = apply_process_unique(unique_string_cols, unique_string_dts, dense_encoding)
+    if not faulty_cols.empty:  # If there are faulty columns, concat them to the standard string cols
+        string_cols = pd.concat([string_cols, faulty_cols], axis=1)
+    results_heur = extract_features_gbc(string_cols)
+    if results_heur:
+        # The GBC assigns a 0 (= ordinal) or a 1 (= nominal) for each standard string column
+        results_gbc = ordinality_prediction(results_heur)
+    else:
+        results_gbc = []
+    string_encoders = __get_encoder_names(string_cols, y, results_gbc, dense_encoding) + ["custom" for c in unique_string_cols]
+    return string_encoders 
 
 def run(data, y=None, encode=True, dense_encoding=True, display_info=True):
     """ Run the framework for automated string handling, cleaning, and encoding.
@@ -249,22 +320,25 @@ def run(data, y=None, encode=True, dense_encoding=True, display_info=True):
         check_ord = {x: y for x, y in
                      zip(list(string_cols.columns), ['Yes' if i == 0.0 else 'No' for i in results_gbc])}
 
-        def get_encoder_name(col):
-            cust_types = ['boolean', 'coordinate', 'date-iso-8601', 'date-eu', 'gender', 'month', 'numerical']
-            # Check if col is ordinal
-            if col in check_ord and check_ord[col] == 'Yes':
-                return 'OrdinalEncoder'  
-            else:
-                if info.at[col, 'Number of unique values'] < 30:
-                    return 'SimilarityEncoder'
-                elif info.at[col, 'Number of unique values'] < 100:
-                    return 'GapEncoder'
-                else:
-                    if info.at[col, 'Type'] in cust_types:
-                        return 'Custom'
-                    return "MinHashEncoder"
-
-        enc_used = {x: get_encoder_name(x) for x in list(data.columns)}
+        enc_used = {x:
+                        'OrdinalEncoder' if x in check_ord and check_ord[x] == 'Yes'
+                        else 'SimilarityEncoder' if info.at[x, 'Number of unique values'] < 30 or (
+                                    info.at[x, 'Number of unique values'] < 30 and info.at[x, 'Type'] in ['day',
+                                                                                                          'email',
+                                                                                                          'filepath',
+                                                                                                          'sentence',
+                                                                                                          'url',
+                                                                                                          'zipcode'])
+                        else 'GapEncoder' if info.at[x, 'Number of unique values'] < 100 or (
+                                    info.at[x, 'Number of unique values'] < 100 and info.at[x, 'Type'] in ['email',
+                                                                                                           'filepath',
+                                                                                                           'sentence',
+                                                                                                           'url',
+                                                                                                           'zipcode'])
+                        else 'Custom' if info.at[x, 'Type'] in ['boolean', 'coordinate', 'date-iso-8601', 'date-eu',
+                                                                'gender', 'month', 'numerical']
+                        else 'MinHashEncoder' for x in (list(data.columns))
+                    }
 
         for name, mapping in zip(['Ordinal?', 'Encoding'], [check_ord, enc_used]):
             mapping = pd.Series(info.index).map(mapping)

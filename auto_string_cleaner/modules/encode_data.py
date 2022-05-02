@@ -28,18 +28,7 @@ def determine_order_flair(values):
     results = [results[i][0] for i in range(len(results))]
     return results
 
-
-def run(df, y, column, encode_type, dense, balanced):
-    """ Run the heuristics on string encoding.
-
-    :param df: a pandas DataFrame consisting of the data.
-    :param y: a pandas DataFrame consisting of target values.
-    :param column: a pandas DataFrame consisting of the column to be encoded.
-    :param encode_type: an Integer indicating whether the column needs ordinal or nominal encoding.
-    :param dense: a Boolean indicating whether the encoded values are fitted in one column or in multiple.
-    :param balanced: a Boolean indicating whether the target classes are balanced.
-    :return: a Dictionary consisting of the mappings String -> Float/List.
-    """
+def get_encoder(column, encode_type, balanced):
     if encode_type == 0:
         # Ordinal encoding required. Determine the order and encode accordingly
         unique_entries = [item for item, _ in column.value_counts().iteritems()]
@@ -60,6 +49,21 @@ def run(df, y, column, encode_type, dense, balanced):
         else:
             # Data has high cardinality. Encode using MinHashEncoder
             enc = MinHashEncoder()
+    return enc
+
+def run(df, y, column, encode_type, dense, balanced):
+    """ Run the heuristics on string encoding.
+
+    :param df: a pandas DataFrame consisting of the data.
+    :param y: a pandas DataFrame consisting of target values.
+    :param column: a pandas DataFrame consisting of the column to be encoded.
+    :param encode_type: an Integer indicating whether the column needs ordinal or nominal encoding.
+    :param dense: a Boolean indicating whether the encoded values are fitted in one column or in multiple.
+    :param balanced: a Boolean indicating whether the target classes are balanced.
+    :return: a Dictionary consisting of the mappings String -> Float/List.
+    """
+
+    enc = get_encoder(column, encode_type, balanced)
 
     if encode_type == 1 and column.value_counts().count() < 30 and balanced:
         return enc.fit_transform(column, y)
