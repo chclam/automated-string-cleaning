@@ -107,7 +107,7 @@ def __is_balanced(y):
         return False
     # Check target class balance. Target class is balanced if the standard deviation is smaller than 10% of the mean
     target_freq = list(y.value_counts())
-    return (np.mean(target_freq) / np.std(target_freq)) < 0.5
+    return (np.std(target_freq) / np.mean(target_freq)) < 0.5
 
 def apply_encoding(df, y, results, dense):
     """ Encode the string columns based on the results from the GBC.
