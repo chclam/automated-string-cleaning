@@ -137,7 +137,7 @@ def __get_encoder_names(df, y, results, dense):
     balanced = __is_balanced(y)
     ret = []
     for col, val in zip(df, results):
-        if val == 1:
+        if val != 2:
             ret.append(type(encode_data.get_encoder(df[col], val, balanced)).__name__)
     return ret
 

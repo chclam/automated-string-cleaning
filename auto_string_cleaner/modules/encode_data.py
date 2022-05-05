@@ -33,23 +33,22 @@ def get_encoder(column, encode_type, balanced):
         # Ordinal encoding required. Determine the order and encode accordingly
         unique_entries = [item for item, _ in column.value_counts().iteritems()]
         order = determine_order_flair(unique_entries)
-        enc = OrdinalEncoder(categories=[order])
+        return OrdinalEncoder(categories=[order])
     else:
         if column.value_counts().count() < 30:
             # Data has low cardinality. Check the class balance
             if balanced:
                 # Encode using TargetEncoder
-                enc = TargetEncoder()
+                return TargetEncoder()
             else:
                 # Encode using SimilarityEncoder
-                enc = SimilarityEncoder()
+                return SimilarityEncoder()
         elif column.value_counts().count() < 100:
             # Data has medium to high cardinality. Encode using GapEncoder
-            enc = GapEncoder()
+            return GapEncoder()
         else:
             # Data has high cardinality. Encode using MinHashEncoder
-            enc = MinHashEncoder()
-    return enc
+            return MinHashEncoder()
 
 def run(df, y, column, encode_type, dense, balanced):
     """ Run the heuristics on string encoding.
